@@ -1,7 +1,7 @@
 import time
 import threading
 
-from tkinter import Tk, Canvas, Text
+from tkinter import Tk, Canvas
 from tkinter.font import Font
 
 WINDOW_WIDTH = 800
@@ -13,6 +13,7 @@ CIRCLE_INITIAL_RADIUS = 0
 CIRCLE_RADIUS_GROW_PER_FRAME = 5
 ANIMATION_FPS = 60
 ANIMATION_FRAME_COUNT = 100
+END_POLL_SLEEP = 2
 
 def get_circle_coords(x, y, r):
     return (
@@ -55,6 +56,8 @@ def start_update_loop(circle_id, canvas, x, y, r):
 def start_end_poll_loop(draw_thread, execute_after, canvas):
     def poll():
         while True:
+            time.sleep(END_POLL_SLEEP) # it still blocks; gotta switch to multiprocessing
+
             if not draw_thread.is_alive():
                 break
 
@@ -108,13 +111,13 @@ def draw_ui(canvas):
     canvas.create_text(
         WINDOW_WIDTH // 2,
         WINDOW_HEIGHT // 2,
-        text="Hello world!",
+        text="It's over!",
         font=Font(size=20),
+        fill="blue"
     )
 
 # Show the loading animation
-#start_animation(canvas, execute_after=draw_ui) # still working on execute_after; it does work but you know GIL ;-;
-start_animation(canvas)
+start_animation(canvas, execute_after=draw_ui)
 
 # Enter the main UI loop
 root.mainloop()
