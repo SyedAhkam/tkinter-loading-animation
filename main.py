@@ -113,7 +113,8 @@ def draw_ui(canvas):
     )
 
 # Show the loading animation
-start_animation(canvas, execute_after=draw_ui)
+#start_animation(canvas, execute_after=draw_ui) # still working on execute_after; it does work but you know GIL ;-;
+start_animation(canvas)
 
 # Enter the main UI loop
 root.mainloop()
